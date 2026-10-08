@@ -23,7 +23,7 @@ export default function Footer() {
               <span className="w-8 h-8 rounded-xl bg-orange-500 flex items-center justify-center text-slate-950 font-black text-lg shadow-sm">
                 ⚡
               </span>
-              <span>suplementos<span className="text-orange-500">.</span></span>
+              <span>suplementos<span className="text-orange-500"></span></span>
             </Link>
             <p className="text-xs text-slate-600 leading-relaxed max-w-sm font-medium">
               El primer comparador de precios de suplementación deportiva en tiempo real. Encuentra la mejor oferta cerca de ti y paga con tu método favorito.
@@ -80,7 +80,8 @@ export default function Footer() {
                 <a href="#" className="hover:text-orange-600 transition-colors">Términos y Condiciones</a>
               </li>
               <li>
-                <a href="#" className="hover:text-orange-600 transition-colors">Privacidad</a>
+                <a href="#" className="hover:text-orange-600 tra
+                nsition-colors">Privacidad</a>
               </li>
             </ul>
           </div>
@@ -89,7 +90,7 @@ export default function Footer() {
 
         {/* Separador y Copyright */}
         <div className="pt-8 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] font-semibold text-slate-500">
-          <p>© {year ?? 2026} suplementos. Todos los derechos reservados.</p>
+          <p>© {year ?? 2026} suplementos Todos los derechos reservados.</p>
           <p>Diseñado para potenciar tu entrenamiento al mejor precio.</p>
         </div>
 

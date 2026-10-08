@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { generateWhatsAppLink } from '@/lib/whatsapp'
 import Footer from '@/components/Footer'
+import Link from 'next/link'
 
 interface StoreProduct {
   id: string
@@ -108,7 +109,7 @@ export default function HomePage() {
             <span className="w-8 h-8 rounded-xl bg-orange-500 flex items-center justify-center text-slate-950 font-black text-lg shadow-sm">
               ⚡
             </span>
-            <span>suplementos<span className="text-orange-500">.</span></span>
+            <span>suplementos<span className="text-orange-500"></span></span>
           </a>
 
           <nav className="hidden md:flex items-center gap-8 text-xs font-bold text-slate-700">
@@ -132,7 +133,7 @@ export default function HomePage() {
       </header>
 
       {/* 2. Hero Header Naranja */}
-      <section className="relative min-h-[500px] md:min-h-[550px] flex items-center justify-center bg-orange-500 text-slate-950 px-4 md:px-8 py-20 text-center overflow-hidden">
+      <section className="relative min-h-[600px] md:min-h-[580px] flex items-center justify-center bg-orange-500 text-slate-950 px-4 md:px-8 py-20 text-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-40 scale-105 pointer-events-none"
           style={{ 
@@ -149,7 +150,7 @@ export default function HomePage() {
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-none text-slate-950 drop-shadow-sm whitespace-nowrap">
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tight leading-none text-slate-950 drop-shadow-sm whitespace-nowrap">
             Entrena más, gasta menos
           </h1>
 
@@ -167,6 +168,21 @@ export default function HomePage() {
               <span>↓</span>
             </button>
           </div>
+
+          <div className="pt-2">
+            <Link
+              href="/asesor"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-slate-950 hover:bg-slate-900 text-white font-bold rounded-2xl transition-all shadow-xl shadow-slate-950/20 hover:scale-105 active:scale-95 text-sm md:text-base cursor-pointer"
+            >
+              <span>Ir al Asesor Inteligente</span>
+              <span>→</span>
+            </Link>
+          </div>
+
+
+
+
+
         </div>
       </section>
 
@@ -179,14 +195,15 @@ export default function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           
           <div className="lg:col-span-5 space-y-6">
-            <div className="inline-flex items-center gap-2 text-orange-600 font-extrabold text-xs tracking-widest uppercase bg-orange-50 px-3 py-1 rounded-lg border border-orange-200">
-              ⚡ SUPLEMENTOS COMPARADOR
-            </div>
+  
+  <div className="hidden lg:inline-flex items-center gap-2 text-orange-600 font-extrabold text-xs tracking-widest uppercase bg-orange-50 px-3 py-1 rounded-lg border border-orange-200">
+    ⚡ SUPLEMENTOS COMPARADOR
+  </div>
 
-            <h3 className="text-3xl md:text-4xl font-black text-slate-950 leading-tight">
-              Lo que buscas, al mejor precio, en tu ciudad
-            </h3>
-
+  
+  <h3 className="hidden lg:block text-3xl md:text-4xl font-black text-slate-950 leading-tight">
+    Lo que buscas, al mejor precio, en tu ciudad
+  </h3>
             <p className="text-slate-600 text-base leading-relaxed font-medium">
               Proteínas, creatinas, aminoácidos y pre-entrenos con disponibilidad real. Compara precios entre tiendas físicas e hipermercados de tu zona al instante.
             </p>
@@ -333,126 +350,129 @@ export default function HomePage() {
       </section>
 
       {/* 5. SECCIÓN INSPIRADA EN LA IMAGEN (Redirige al Asesor Inteligente) */}
-      <section className="max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24 border-b border-slate-200/60">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          {/* Mockup / Card Visual Izquierdo */}
-          <div className="lg:col-span-6">
-            <div className="bg-slate-100/80 rounded-[2.5rem] p-6 md:p-10 border border-slate-200/80 shadow-sm relative overflow-hidden min-h-[440px] flex flex-col justify-center">
-              
-              <div className="absolute -top-3 -left-2 text-6xl select-none pointer-events-none opacity-90">
-                🏋️‍♂️
-              </div>
+     {/* 5. SECCIÓN INSPIRADA EN LA IMAGEN (Redirige al Asesor Inteligente) */}
+<section className="max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24 border-b border-slate-200/60">
+  {/* Cambiamos el contenedor para usar flex en móvil con orden invertido y grid en pantallas grandes */}
+  <div className="flex flex-col lg:grid lg:grid-cols-12 gap-12 items-center">
+    
+    {/* Información y Botón (se muestra PRIMERO en móvil con order-1, y en orden normal en escritorio con lg:order-2) */}
+    <div className="lg:col-span-6 space-y-6 order-1 lg:order-2">
+      
+      <div className="inline-flex items-center gap-2">
+        <span className="w-8 h-8 rounded-xl bg-orange-500 flex items-center justify-center text-slate-950 font-black text-lg shadow-sm">
+          ⚡
+        </span>
+      </div>
 
-              <div className="bg-white rounded-2xl p-4 shadow-lg border border-slate-100 space-y-2 mb-4 relative z-10 max-w-sm mx-auto w-full">
-                <div className="flex items-center gap-3">
-                  <div className="bg-orange-100 text-orange-600 font-black text-xs px-2.5 py-1.5 rounded-xl uppercase text-center leading-tight">
-                    IA <br />
-                    <span className="text-[10px]">RECOM.</span>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-sm text-slate-900">Asesor Nutricional Inteligente</h4>
-                    <p className="text-xs text-slate-500">Recomendaciones según tu objetivo de entrenamiento</p>
-                  </div>
-                </div>
-              </div>
+      <h2 className="text-3xl md:text-4xl font-black text-slate-950 leading-tight">
+        Tu guía de suplementación a un clic de distancia
+      </h2>
 
-              <div className="flex justify-center gap-2 mb-4 relative z-10 flex-wrap">
-                <span className="px-3 py-1.5 bg-white text-slate-800 font-bold text-xs rounded-full shadow-sm border border-slate-200/60 flex items-center gap-1">
-                  ⚡ Masa Muscular
-                </span>
-                <span className="px-3 py-1.5 bg-white text-slate-800 font-bold text-xs rounded-full shadow-sm border border-slate-200/60 flex items-center gap-1">
-                  🔥 Pérdida de Grasa
-                </span>
-                <span className="px-3 py-1.5 bg-white text-slate-800 font-bold text-xs rounded-full shadow-sm border border-slate-200/60 flex items-center gap-1">
-                  💪 Rendimiento
-                </span>
-              </div>
+      <p className="text-slate-600 text-sm md:text-base leading-relaxed font-medium">
+        ¿No sabes qué proteína o creatina elegir para tus metas? Nuestro asesor inteligente evalúa tus objetivos físicos y te orienta hacia la mejor suplementación disponible al mejor precio en tu ciudad.
+      </p>
 
-              <div className="bg-white rounded-2xl p-4 shadow-lg border border-slate-100 space-y-3 relative z-10 max-w-sm mx-auto w-full">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <span className="font-bold text-xs text-slate-900 block">Kit Recomendado • 2 productos</span>
-                    <span className="text-[10px] text-slate-400 font-medium">Creatina Monohidratada + Whey Protein</span>
-                  </div>
-                  <span className="text-base font-black text-slate-900">$58,00</span>
-                </div>
+      <ul className="space-y-3 text-sm font-semibold text-slate-800">
+        <li className="flex items-center gap-2.5">
+          <span className="text-emerald-500 font-bold">✓</span>
+          Proteínas, creatinas, pre-entrenos y vitaminas adaptadas a tu rutina
+        </li>
+        <li className="flex items-center gap-2.5">
+          <span className="text-emerald-500 font-bold">✓</span>
+          Reserva y consulta disponibilidad directa en tiendas físicas
+        </li>
+        <li className="flex items-center gap-2.5">
+          <span className="text-emerald-500 font-bold">✓</span>
+          Pago en cómodas cuotas con Cashea
+        </li>
+        <li className="flex items-center gap-2.5">
+          <span className="text-emerald-500 font-bold">✓</span>
+          Asesoría personalizada e inteligente al instante
+        </li>
+      </ul>
 
-                <div className="pt-2 border-t border-slate-100 flex justify-between items-center">
-                  <span className="text-[11px] text-slate-500 font-medium">
-                    Obtén tu recomendación gratis
-                  </span>
-                  <a
-                    href="/asesor"
-                    className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-emerald-500/20"
-                  >
-                    Consultar
-                  </a>
-                </div>
-              </div>
+      <div className="pt-4 flex items-center gap-4 flex-wrap">
+        <a
+          href="/asesor"
+          className="px-6 py-3.5 bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-bold rounded-2xl transition-all shadow-lg shadow-emerald-500/25 text-sm inline-flex items-center gap-2 cursor-pointer"
+        >
+          <span>Ir al Asesor Inteligente</span>
+          <span>→</span>
+        </a>
 
-              <div className="absolute -bottom-2 -right-2 text-6xl select-none pointer-events-none opacity-90">
-                🥤
-              </div>
+        <span className="text-xs font-bold text-slate-500">
+          Atención rápida y personalizada
+        </span>
+      </div>
 
-            </div>
-          </div>
+    </div>
 
-          {/* Información y Botón a la Derecha */}
-          <div className="lg:col-span-6 space-y-6">
-            
-            <div className="inline-flex items-center gap-2">
-              <span className="w-8 h-8 rounded-xl bg-orange-500 flex items-center justify-center text-slate-950 font-black text-lg shadow-sm">
-                ⚡
-              </span>
-            </div>
-
-            {/* Título con el mismo tamaño exacto de letra */}
-            <h2 className="text-3xl md:text-4xl font-black text-slate-950 leading-tight">
-              Tu guía de suplementación a un clic de distancia
-            </h2>
-
-            <p className="text-slate-600 text-sm md:text-base leading-relaxed font-medium">
-              ¿No sabes qué proteína o creatina elegir para tus metas? Nuestro asesor inteligente evalúa tus objetivos físicos y te orienta hacia la mejor suplementación disponible al mejor precio en tu ciudad.
-            </p>
-
-            <ul className="space-y-3 text-sm font-semibold text-slate-800">
-              <li className="flex items-center gap-2.5">
-                <span className="text-emerald-500 font-bold">✓</span>
-                Proteínas, creatinas, pre-entrenos y vitaminas adaptadas a tu rutina
-              </li>
-              <li className="flex items-center gap-2.5">
-                <span className="text-emerald-500 font-bold">✓</span>
-                Reserva y consulta disponibilidad directa en tiendas físicas
-              </li>
-              <li className="flex items-center gap-2.5">
-                <span className="text-emerald-500 font-bold">✓</span>
-                Pago en cómodas cuotas con Cashea
-              </li>
-              <li className="flex items-center gap-2.5">
-                <span className="text-emerald-500 font-bold">✓</span>
-                Asesoría personalizada e inteligente al instante
-              </li>
-            </ul>
-
-            <div className="pt-4 flex items-center gap-4 flex-wrap">
-              <a
-                href="/asesor"
-                className="px-6 py-3.5 bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-bold rounded-2xl transition-all shadow-lg shadow-emerald-500/25 text-sm inline-flex items-center gap-2 cursor-pointer"
-              >
-                <span>Ir al Asesor Inteligente</span>
-                <span>→</span>
-              </a>
-
-              <span className="text-xs font-bold text-slate-500">
-                Atención rápida y personalizada
-              </span>
-            </div>
-
-          </div>
-
+    {/* Mockup / Card Visual (se muestra DESPUÉS en móvil con order-2, y a la izquierda en escritorio con lg:order-1) */}
+    <div className="lg:col-span-6 order-2 lg:order-1 w-full">
+      <div className="bg-slate-100/80 rounded-[2.5rem] p-6 md:p-10 border border-slate-200/80 shadow-sm relative overflow-hidden min-h-[440px] flex flex-col justify-center">
+        
+        <div className="absolute -top-3 -left-2 text-6xl select-none pointer-events-none opacity-90">
+          🏋️‍♂️
         </div>
-      </section>
+
+        <div className="bg-white rounded-2xl p-4 shadow-lg border border-slate-100 space-y-2 mb-4 relative z-10 max-w-sm mx-auto w-full">
+          <div className="flex items-center gap-3">
+            <div className="bg-orange-100 text-orange-600 font-black text-xs px-2.5 py-1.5 rounded-xl uppercase text-center leading-tight">
+              MP <br />
+              <span className="text-[10px]">RECOM.</span>
+            </div>
+            <div>
+              <h4 className="font-bold text-sm text-slate-900">Asesor Nutricional Inteligente</h4>
+              <p className="text-xs text-slate-500">Recomendaciones según tu objetivo de entrenamiento</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-center gap-2 mb-4 relative z-10 flex-wrap">
+          <span className="px-3 py-1.5 bg-white text-slate-800 font-bold text-xs rounded-full shadow-sm border border-slate-200/60 flex items-center gap-1">
+            ⚡ Masa Muscular
+          </span>
+          <span className="px-3 py-1.5 bg-white text-slate-800 font-bold text-xs rounded-full shadow-sm border border-slate-200/60 flex items-center gap-1">
+            🔥 Pérdida de Grasa
+          </span>
+          <span className="px-3 py-1.5 bg-white text-slate-800 font-bold text-xs rounded-full shadow-sm border border-slate-200/60 flex items-center gap-1">
+            💪 Rendimiento
+          </span>
+        </div>
+
+        <div className="bg-white rounded-2xl p-4 shadow-lg border border-slate-100 space-y-3 relative z-10 max-w-sm mx-auto w-full">
+          <div className="flex justify-between items-center">
+            <div>
+              <span className="font-bold text-xs text-slate-900 block">Kit Recomendado • 2 productos</span>
+              <span className="text-[10px] text-slate-400 font-medium">Creatina Monohidratada + Whey Protein</span>
+            </div>
+            <span className="text-base font-black text-slate-900">$58,00</span>
+          </div>
+
+          <div className="pt-2 border-t border-slate-100 flex justify-between items-center">
+            <span className="text-[11px] text-slate-500 font-medium">
+              Obtén tu recomendación gratis
+            </span>
+            <a
+              href="/asesor"
+              className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-emerald-500/20"
+            >
+              Consultar
+            </a>
+          </div>
+        </div>
+
+        <div className="absolute -bottom-2 -right-2 text-6xl select-none pointer-events-none opacity-90">
+          🥤
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
 
       {/* 6. SECCIÓN DEL COMPARADOR Y PRODUCTOS */}
       <section id="comparador-section" className="bg-slate-950 text-white py-20 px-4 md:px-8 relative overflow-hidden">
