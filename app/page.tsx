@@ -109,7 +109,7 @@ export default function HomePage() {
             <span className="w-8 h-8 rounded-xl bg-orange-500 flex items-center justify-center text-slate-950 font-black text-lg shadow-sm">
               ⚡
             </span>
-            <span>suplementos<span className="text-orange-500"></span></span>
+            <span>FitVoxel<span className="text-orange-500"></span></span>
           </a>
 
           <nav className="hidden md:flex items-center gap-8 text-xs font-bold text-slate-700">
