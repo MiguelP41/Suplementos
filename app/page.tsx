@@ -349,7 +349,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. SECCIÓN INSPIRADA EN LA IMAGEN (Redirige al Asesor Inteligente) */}
+      
      {/* 5. SECCIÓN INSPIRADA EN LA IMAGEN (Redirige al Asesor Inteligente) */}
 <section className="max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24 border-b border-slate-200/60">
   {/* Cambiamos el contenedor para usar flex en móvil con orden invertido y grid en pantallas grandes */}
@@ -358,14 +358,10 @@ export default function HomePage() {
     {/* Información y Botón (se muestra PRIMERO en móvil con order-1, y en orden normal en escritorio con lg:order-2) */}
     <div className="lg:col-span-6 space-y-6 order-1 lg:order-2">
       
-      <div className="inline-flex items-center gap-2">
-        <span className="w-8 h-8 rounded-xl bg-orange-500 flex items-center justify-center text-slate-950 font-black text-lg shadow-sm">
-          ⚡
-        </span>
-      </div>
+      
 
       <h2 className="text-3xl md:text-4xl font-black text-slate-950 leading-tight">
-        Tu guía de suplementación a un clic de distancia
+        ⚡Tu guía de suplementación a un clic de distancia
       </h2>
 
       <p className="text-slate-600 text-sm md:text-base leading-relaxed font-medium">
