@@ -51,7 +51,7 @@ export default function HomePage() {
           observer.disconnect()
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.4 }
     )
 
     if (stepsRef.current) {
@@ -355,7 +355,7 @@ export default function HomePage() {
       </div>
 
       {/* Paso 2 */}
-      <div className={`bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm relative space-y-4 hover:shadow-md transition-all duration-700 delay-200 transform ${
+      <div className={`bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm relative space-y-4 hover:shadow-md transition-all duration-700 delay-400 transform ${
         stepsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
       }`}>
         <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-600 font-black text-xl flex items-center justify-center">
@@ -368,7 +368,7 @@ export default function HomePage() {
       </div>
 
       {/* Paso 3 */}
-      <div className={`bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm relative space-y-4 hover:shadow-md transition-all duration-700 delay-400 transform ${
+      <div className={`bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm relative space-y-4 hover:shadow-md transition-all duration-700 delay-600 transform ${
         stepsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
       }`}>
         <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-600 font-black text-xl flex items-center justify-center">
