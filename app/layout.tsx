@@ -1,4 +1,6 @@
-import type { Metadata, Viewport } from "next";
+'use client'
+
+import { useEffect } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -12,21 +14,35 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// 1. AQUÍ BLOQUEAS EL ZOOM EN TODO EL PROYECTO
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false, // Bloquea el zoom táctil
-};
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    // 1. Desactivar Zoom por doble toque (Double-tap to zoom)
+    let lastTouchEnd = 0;
+    const preventDoubleTap = (event: TouchEvent) => {
+      const now = new Date().getTime();
+      if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+      }
+      lastTouchEnd = now;
+    };
 
-// 2. Personaliza los metadatos de tu PWA
-export const metadata: Metadata = {
-  title: "FitVoxel - Comparador de Suplementos y Gimnasios",
-  description: "Encuentra la mejor opción en suplementos y gimnasios en Caracas y Venezuela.",
-};
+    // 2. Desactivar Zoom multitáctil de pellizco (Pinch-to-zoom)
+    const preventPinchZoom = (event: TouchEvent) => {
+      if (event.touches.length > 1) {
+        event.preventDefault();
+      }
+    };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+    // Escuchar eventos en el documento de forma pasiva = false
+    document.addEventListener("touchstart", preventPinchZoom, { passive: false });
+    document.addEventListener("touchend", preventDoubleTap, { passive: false });
+
+    return () => {
+      document.removeEventListener("touchstart", preventPinchZoom);
+      document.removeEventListener("touchend", preventDoubleTap);
+    };
+  }, []);
+
   return (
     <html
       lang="es"

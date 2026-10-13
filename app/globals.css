@@ -32,3 +32,18 @@ input, select, textarea {
 html, body {
   touch-action: manipulation;
 }
+
+html, body {
+  touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* 2. Evita que el navegador haga zoom automático al tocar inputs */
+input, select, textarea {
+  font-size: 16px !important;
+}
+
+/* 3. Evita la selección accidental de texto al hacer tap rápido */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
