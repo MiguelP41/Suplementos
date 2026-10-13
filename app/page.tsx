@@ -106,17 +106,21 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
           
           <a href="#" className="flex items-center gap-2 font-black text-2xl tracking-tighter text-slate-950">
-            <span className="w-8 h-8 rounded-xl bg-orange-500 flex items-center justify-center text-slate-950 font-black text-lg shadow-sm">
-              ⚡
+            <span className="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-sm overflow-hidden ">
+              <img
+                src="/Logo2026.png"
+                alt="FitVoxel Logo Icon"
+                className="w-full h-full object-contain"
+              />
             </span>
             <span>FitVoxel<span className="text-orange-500"></span></span>
           </a>
 
           <nav className="hidden md:flex items-center gap-8 text-xs font-bold text-slate-700">
-            <a href="#" className="hover:text-orange-600 transition-colors">Para usuarios</a>
+            <a href="#" className="hover:text-orange-600 transition-colors">Gimnasios</a>
             <a href="#" className="hover:text-orange-600 transition-colors">¿Dónde comprar?</a>
-            <a href="#" className="hover:text-orange-600 transition-colors">Para comercios</a>
-            <a href="#" className="hover:text-orange-600 transition-colors">Generación Impulso</a>
+            <a href="#" className="hover:text-orange-600 transition-colors">Suscripciones</a>
+            <a href="#" className="hover:text-orange-600 transition-colors">Comparador</a>
             <a href="#" className="hover:text-orange-600 transition-colors">Preguntas Frecuentes</a>
           </nav>
 
@@ -125,7 +129,7 @@ export default function HomePage() {
               href="/asesor"
               className="px-4 py-2 bg-slate-950 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition-all shadow-sm"
             >
-              Únete a nosotros
+              Asesor Inteligente
             </a>
           </div>
 
@@ -563,7 +567,7 @@ export default function HomePage() {
             </div>
           ) : filteredProducts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {filteredProducts.map((sp, idx) => {
+              {filteredProducts.slice(0, 6).map((sp, idx) => {
                 const priceNum = Number(sp.price)
                 const casheaInitial = priceNum * 0.5
                 const casheaInstallment = casheaInitial / 3

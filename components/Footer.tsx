@@ -19,12 +19,18 @@ export default function Footer() {
           
           {/* Brand Col */}
           <div className="lg:col-span-2 space-y-4">
-            <Link href="/" className="inline-flex items-center gap-2 font-black text-2xl tracking-tighter text-slate-950">
-              <span className="w-8 h-8 rounded-xl bg-orange-500 flex items-center justify-center text-slate-950 font-black text-lg shadow-sm">
-                ⚡
-              </span>
-              <span>FitVoxel<span className="text-orange-500"></span></span>
-            </Link>
+            
+              <a href="#" className="flex items-center gap-2 font-black text-2xl tracking-tighter text-slate-950">
+            <span className="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-sm overflow-hidden ">
+              <img
+                src="/Logo2026.png"
+                alt="FitVoxel Logo Icon"
+                className="w-full h-full object-contain"
+              />
+            </span>
+            <span>FitVoxel<span className="text-orange-500"></span></span>
+          </a>
+            
             <p className="text-xs text-slate-600 leading-relaxed max-w-sm font-medium">
               El primer comparador de precios de suplementación deportiva en tiempo real. Encuentra la mejor oferta cerca de ti y paga con tu método favorito.
             </p>
