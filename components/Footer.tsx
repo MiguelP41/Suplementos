@@ -50,7 +50,7 @@ export default function Footer() {
                 <a href="#comparador-section" className="hover:text-orange-600 transition-colors">Comparador de Precios</a>
               </li>
               <li>
-                <Link href="/asesor" className="hover:text-orange-600 transition-colors">Asesor IA Nutricional</Link>
+                <Link href="/asesor" className="hover:text-orange-600 transition-colors">Asesor Nutricional</Link>
               </li>
               <li>
                 <a href="#" className="hover:text-orange-600 transition-colors">Tiendas Afiliadas</a>
