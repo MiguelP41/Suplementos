@@ -43,6 +43,51 @@ export default function HomePage() {
   const [stepsVisible, setStepsVisible] = useState(false)
   const stepsRef = useRef<HTMLDivElement>(null)
 
+  // Estados y refs para la sección informativa (Sección 3)
+  const [infoVisible, setInfoVisible] = useState(false)
+  const infoRef = useRef<HTMLDivElement>(null)
+
+  // Estado y ref para la animación de la Sección 6 (Comparador)
+  const [comparadorVisible, setComparadorVisible] = useState(false)
+  const comparadorRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setComparadorVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    if (comparadorRef.current) {
+      observer.observe(comparadorRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInfoVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.4 }
+    )
+
+    if (infoRef.current) {
+      observer.observe(infoRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -211,24 +256,26 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. Sección Informativa Directa */}
-      <section className="max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24">
-        <h2 className="text-3xl md:text-5xl font-black text-center text-slate-950 mb-12 md:mb-16 tracking-tight">
+      {/* 3. Sección Informativa Directa (Con Scroll Animado) */}
+      <section ref={infoRef} className="max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24 overflow-hidden">
+        <h2 className={`text-3xl md:text-5xl font-black text-center text-slate-950 mb-12 md:mb-16 tracking-tight transition-all duration-700 transform ${infoVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}>
           Todo para tu rendimiento en un solo lugar.
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          
-          <div className="lg:col-span-5 space-y-6">
-  
-  <div className="hidden lg:inline-flex items-center gap-2 text-orange-600 font-extrabold text-xs tracking-widest uppercase bg-orange-50 px-3 py-1 rounded-lg border border-orange-200">
-    ⚡ SUPLEMENTOS COMPARADOR
-  </div>
 
-  
-  <h3 className="hidden lg:block text-3xl md:text-4xl font-black text-slate-950 leading-tight">
-    Lo que buscas, al mejor precio, en tu ciudad
-  </h3>
+          {/* Columna Izquierda (Textos y Lista) */}
+          <div className={`lg:col-span-5 space-y-6 transition-all duration-700 delay-400 transform ${infoVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+            }`}>
+            <div className="hidden lg:inline-flex items-center gap-2 text-orange-600 font-extrabold text-xs tracking-widest uppercase bg-orange-50 px-3 py-1 rounded-lg border border-orange-200">
+              ⚡ SUPLEMENTOS COMPARADOR
+            </div>
+
+            <h3 className="hidden lg:block text-3xl md:text-4xl font-black text-slate-950 leading-tight">
+              Lo que buscas, al mejor precio, en tu ciudad
+            </h3>
+
             <p className="text-slate-600 text-base leading-relaxed font-medium">
               Proteínas, creatinas, aminoácidos y pre-entrenos con disponibilidad real. Compara precios entre tiendas físicas e hipermercados de tu zona al instante.
             </p>
@@ -263,10 +310,12 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="lg:col-span-7">
+          {/* Columna Derecha (Tarjeta Visual / Mockup) */}
+          <div className={`lg:col-span-7 transition-all duration-700 delay-600 transform ${infoVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'
+            }`}>
             <div className="bg-orange-500/5 rounded-[2.5rem] p-6 md:p-10 border border-orange-500/15 relative overflow-hidden shadow-inner">
               <div className="bg-white rounded-3xl p-6 shadow-2xl shadow-orange-500/10 border border-slate-100 space-y-6 relative z-10 max-w-md mx-auto">
-                <div 
+                <div
                   onClick={handleStartSearch}
                   className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-between text-slate-400 text-xs font-medium cursor-pointer hover:bg-slate-100/80 transition-colors"
                 >
@@ -324,374 +373,380 @@ export default function HomePage() {
       </section>
 
       {/* 4. ¿Cómo funciona / Pasos del Comparador? */}
-<section ref={stepsRef} className="bg-slate-100/80 border-y border-slate-200 py-16 md:py-20 px-4 md:px-8 overflow-hidden">
-  <div className="max-w-7xl mx-auto space-y-12">
-    
-    <div className="text-center space-y-5 max-w-2xl mx-auto">
-      <span className="inline-block mb-2 text-xs font-extrabold text-orange-600 uppercase tracking-widest bg-orange-100 px-4 py-1.5 rounded-full border border-orange-200">
-        Proceso simple y transparente
-      </span>
-      <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
-        ¿Cómo encontrar la oferta perfecta en 3 pasos?
-      </h2>
-      <p className="text-slate-600 text-sm font-medium">
-        Eliminamos el desorden. Compara precios reales de establecimientos locales directamente desde tu celular.
-      </p>
-    </div>
+      <section ref={stepsRef} className="bg-slate-100/80 border-y border-slate-200 py-16 md:py-20 px-4 md:px-8 overflow-hidden">
+        <div className="max-w-7xl mx-auto space-y-12">
 
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      
-      {/* Paso 1 */}
-      <div className={`bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm relative space-y-4 hover:shadow-md transition-all duration-700 transform ${
-        stepsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-      }`}>
-        <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-600 font-black text-xl flex items-center justify-center">
-          1
-        </div>
-        <h3 className="text-lg font-black text-slate-900">Selecciona tu Ciudad</h3>
-        <p className="text-slate-600 text-xs leading-relaxed font-medium">
-          Indica dónde te encuentras para ver exclusivamente las tiendas físicas e hipermercados disponibles cerca de ti.
-        </p>
-      </div>
-
-      {/* Paso 2 */}
-      <div className={`bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm relative space-y-4 hover:shadow-md transition-all duration-700 delay-400 transform ${
-        stepsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-      }`}>
-        <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-600 font-black text-xl flex items-center justify-center">
-          2
-        </div>
-        <h3 className="text-lg font-black text-slate-900">Compara Precios y Cashea</h3>
-        <p className="text-slate-600 text-xs leading-relaxed font-medium">
-          Ordenamos de forma transparente las opciones desde la más económica. Identifica fácilmente cuáles admiten pago a cuotas.
-        </p>
-      </div>
-
-      {/* Paso 3 */}
-      <div className={`bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm relative space-y-4 hover:shadow-md transition-all duration-700 delay-600 transform ${
-        stepsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-      }`}>
-        <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-600 font-black text-xl flex items-center justify-center">
-          3
-        </div>
-        <h3 className="text-lg font-black text-slate-900">Contacta Directo a la Tienda</h3>
-        <p className="text-slate-600 text-xs leading-relaxed font-medium">
-          Abre un chat de WhatsApp precargado con el comercio para consultar disponibilidad inmediata o pedir tu delivery.
-        </p>
-      </div>
-
-    </div>
-
-  </div>
-</section>
-
-      
-     {/* 5. SECCIÓN INSPIRADA EN LA IMAGEN (Redirige al Asesor Inteligente) */}
-<section className="max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24 border-b border-slate-200/60">
-  {/* Cambiamos el contenedor para usar flex en móvil con orden invertido y grid en pantallas grandes */}
-  <div className="flex flex-col lg:grid lg:grid-cols-12 gap-12 items-center">
-    
-    {/* Información y Botón (se muestra PRIMERO en móvil con order-1, y en orden normal en escritorio con lg:order-2) */}
-    <div className="lg:col-span-6 space-y-6 order-1 lg:order-2">
-      
-      
-
-      <h2 className="text-3xl md:text-4xl font-black text-slate-950 leading-tight">
-        ⚡Tu guía de suplementación a un clic de distancia
-      </h2>
-
-      <p className="text-slate-600 text-sm md:text-base leading-relaxed font-medium">
-        ¿No sabes qué proteína o creatina elegir para tus metas? Nuestro asesor inteligente evalúa tus objetivos físicos y te orienta hacia la mejor suplementación disponible al mejor precio en tu ciudad.
-      </p>
-
-      <ul className="space-y-3 text-sm font-semibold text-slate-800">
-        <li className="flex items-center gap-2.5">
-          <span className="text-emerald-500 font-bold">✓</span>
-          Proteínas, creatinas, pre-entrenos y vitaminas adaptadas a tu rutina
-        </li>
-        <li className="flex items-center gap-2.5">
-          <span className="text-emerald-500 font-bold">✓</span>
-          Reserva y consulta disponibilidad directa en tiendas físicas
-        </li>
-        <li className="flex items-center gap-2.5">
-          <span className="text-emerald-500 font-bold">✓</span>
-          Pago en cómodas cuotas con Cashea
-        </li>
-        <li className="flex items-center gap-2.5">
-          <span className="text-emerald-500 font-bold">✓</span>
-          Asesoría personalizada e inteligente al instante
-        </li>
-      </ul>
-
-      <div className="pt-4 flex items-center gap-4 flex-wrap">
-        <a
-          href="/asesor"
-          className="px-6 py-3.5 bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-bold rounded-2xl transition-all shadow-lg shadow-emerald-500/25 text-sm inline-flex items-center gap-2 cursor-pointer"
-        >
-          <span>Ir al Asesor Inteligente</span>
-          <span>→</span>
-        </a>
-
-        <span className="text-xs font-bold text-slate-500">
-          Atención rápida y personalizada
-        </span>
-      </div>
-
-    </div>
-
-    {/* Mockup / Card Visual (se muestra DESPUÉS en móvil con order-2, y a la izquierda en escritorio con lg:order-1) */}
-    <div className="lg:col-span-6 order-2 lg:order-1 w-full">
-      <div className="bg-slate-100/80 rounded-[2.5rem] p-6 md:p-10 border border-slate-200/80 shadow-sm relative overflow-hidden min-h-[440px] flex flex-col justify-center">
-        
-        <div className="absolute -top-3 -left-2 text-6xl select-none pointer-events-none opacity-90">
-          🏋️‍♂️
-        </div>
-
-        <div className="bg-white rounded-2xl p-4 shadow-lg border border-slate-100 space-y-2 mb-4 relative z-10 max-w-sm mx-auto w-full">
-          <div className="flex items-center gap-3">
-            <div className="bg-orange-100 text-orange-600 font-black text-xs px-2.5 py-1.5 rounded-xl uppercase text-center leading-tight">
-              MP <br />
-              <span className="text-[10px]">RECOM.</span>
-            </div>
-            <div>
-              <h4 className="font-bold text-sm text-slate-900">Asesor Nutricional Inteligente</h4>
-              <p className="text-xs text-slate-500">Recomendaciones según tu objetivo de entrenamiento</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex justify-center gap-2 mb-4 relative z-10 flex-wrap">
-          <span className="px-3 py-1.5 bg-white text-slate-800 font-bold text-xs rounded-full shadow-sm border border-slate-200/60 flex items-center gap-1">
-            ⚡ Masa Muscular
-          </span>
-          <span className="px-3 py-1.5 bg-white text-slate-800 font-bold text-xs rounded-full shadow-sm border border-slate-200/60 flex items-center gap-1">
-            🔥 Pérdida de Grasa
-          </span>
-          <span className="px-3 py-1.5 bg-white text-slate-800 font-bold text-xs rounded-full shadow-sm border border-slate-200/60 flex items-center gap-1">
-            💪 Rendimiento
-          </span>
-        </div>
-
-        <div className="bg-white rounded-2xl p-4 shadow-lg border border-slate-100 space-y-3 relative z-10 max-w-sm mx-auto w-full">
-          <div className="flex justify-between items-center">
-            <div>
-              <span className="font-bold text-xs text-slate-900 block">Kit Recomendado • 2 productos</span>
-              <span className="text-[10px] text-slate-400 font-medium">Creatina Monohidratada + Whey Protein</span>
-            </div>
-            <span className="text-base font-black text-slate-900">$58,00</span>
-          </div>
-
-          <div className="pt-2 border-t border-slate-100 flex justify-between items-center">
-            <span className="text-[11px] text-slate-500 font-medium">
-              Obtén tu recomendación gratis
+          <div className="text-center space-y-5 max-w-2xl mx-auto">
+            <span className="inline-block mb-2 text-xs font-extrabold text-orange-600 uppercase tracking-widest bg-orange-100 px-4 py-1.5 rounded-full border border-orange-200">
+              Proceso simple y transparente
             </span>
-            <a
-              href="/asesor"
-              className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-emerald-500/20"
-            >
-              Consultar
-            </a>
-          </div>
-        </div>
-
-        <div className="absolute -bottom-2 -right-2 text-6xl select-none pointer-events-none opacity-90">
-          🥤
-        </div>
-
-      </div>
-    </div>
-
-  </div>
-</section>
-
-
-
-      {/* 6. SECCIÓN DEL COMPARADOR Y PRODUCTOS */}
-      <section id="comparador-section" className="bg-slate-950 text-white py-20 px-4 md:px-8 relative overflow-hidden">
-        
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-6xl mx-auto space-y-12 relative z-10">
-          
-          {/* Encabezado */}
-          <div className="text-center space-y-4 max-w-5xl mx-auto px-4">
-            <p className="text-xs md:text-sm font-bold text-orange-400 uppercase tracking-widest">
-              ¿Por qué comparar con nosotros?
-            </p>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
-              Encuentra la mejor opción de compra <br className="hidden sm:block" />
-              para llevarte lo que necesitas hoy.
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
+              ¿Cómo encontrar la oferta perfecta en 3 pasos?
             </h2>
-            <p className="text-slate-400 text-sm md:text-base font-medium max-w-2xl mx-auto">
-              Filtra por tu ciudad, compara precios al instante y encuentra tiendas físicas con disponibilidad de Cashea.
+            <p className="text-slate-600 text-sm font-medium">
+              Eliminamos el desorden. Compara precios reales de establecimientos locales directamente desde tu celular.
             </p>
           </div>
 
-          {/* Barra de Filtros y Buscador */}
-          <div className="bg-slate-900/90 border border-slate-800 p-5 rounded-3xl shadow-2xl backdrop-blur-md space-y-4">
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div className="md:col-span-2 relative">
-                <input
-                  type="text"
-                  placeholder="Buscar por producto o marca (ej: Creatina, Whey, Optimum)..."
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3.5 bg-slate-950 border border-slate-800 focus:border-orange-500 rounded-2xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/30 transition-all font-medium"
-                />
-                <svg className="w-5 h-5 absolute left-3.5 top-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            {/* Paso 1 */}
+            <div className={`bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm relative space-y-4 hover:shadow-md transition-all duration-700 transform ${stepsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+              }`}>
+              <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-600 font-black text-xl flex items-center justify-center">
+                1
               </div>
-
-              <div className="relative">
-                <select
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  className="w-full appearance-none px-4 py-3.5 bg-slate-950 border border-slate-800 focus:border-orange-500 rounded-2xl text-sm font-semibold text-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500/30 transition-all cursor-pointer"
-                >
-                  <option value="Caracas">📍 Caracas</option>
-                  <option value="Valencia">📍 Valencia</option>
-                  <option value="Barquisimeto">📍 Barquisimeto</option>
-                  <option value="Maracaibo">📍 Maracaibo</option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                    <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 pt-2 no-scrollbar border-t border-slate-800/80">
-              {CATEGORIES.map((cat) => (
-                <button
-                  type="button"
-                  key={cat.id}
-                  onClick={() => setCategory(cat.id)}
-                  className={`whitespace-nowrap px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 cursor-pointer ${
-                    category === cat.id
-                      ? 'bg-orange-500 text-slate-950 shadow-md shadow-orange-500/20'
-                      : 'bg-slate-950 text-slate-400 hover:bg-slate-800 hover:text-white'
-                  }`}
-                >
-                  <span>{cat.icon}</span>
-                  <span>{cat.label}</span>
-                </button>
-              ))}
-            </div>
-
-          </div>
-
-          {/* Resultados Directos: Cards / Productos */}
-          {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="p-5 rounded-3xl bg-slate-900 border border-slate-800 space-y-4 animate-pulse">
-                  <div className="h-4 bg-slate-800 rounded w-1/3" />
-                  <div className="h-6 bg-slate-800 rounded w-3/4" />
-                  <div className="h-4 bg-slate-800 rounded w-1/2" />
-                  <div className="h-10 bg-slate-800/50 rounded-2xl" />
-                  <div className="h-10 bg-slate-800/50 rounded-2xl" />
-                </div>
-              ))}
-            </div>
-          ) : filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {filteredProducts.slice(0, 6).map((sp, idx) => {
-                const priceNum = Number(sp.price)
-                const casheaInitial = priceNum * 0.5
-                const casheaInstallment = casheaInitial / 3
-
-                return (
-                  <article
-                    key={sp.id}
-                    className="group relative p-6 rounded-3xl bg-slate-900 border border-slate-800 hover:border-orange-500/50 transition-all duration-300 flex flex-col justify-between space-y-5 shadow-xl hover:-translate-y-1 overflow-hidden"
-                  >
-                    <div className="absolute top-0 left-0 right-0 h-1.5 bg-orange-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-
-                    {idx === 0 && !query && (
-                      <div className="absolute top-0 right-0 bg-emerald-500 text-white font-black text-[10px] px-3.5 py-1 rounded-bl-2xl uppercase tracking-wider shadow-sm flex items-center gap-1">
-                        <span>🥇</span> Mejor Oferta
-                      </div>
-                    )}
-
-                    <div className="space-y-3 pt-1">
-                      <div className="flex items-center gap-2 pr-16 flex-wrap">
-                        <span className="text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 bg-slate-800 text-slate-300 rounded-lg">
-                          {sp.products.brand}
-                        </span>
-                        {sp.stores.is_flagship && (
-                          <span className="text-[10px] font-bold text-orange-400 bg-orange-500/10 px-2.5 py-0.5 rounded-lg border border-orange-500/30 flex items-center gap-1">
-                            <span className="text-xs">⭐</span> Flagship
-                          </span>
-                        )}
-                      </div>
-
-                      <h3 className="font-bold text-base text-white leading-snug group-hover:text-orange-400 transition-colors">
-                        {sp.products.name}
-                      </h3>
-
-                      <p className="text-xs text-slate-400 flex items-center gap-1">
-                        <span>Tienda:</span>
-                        <strong className="text-slate-200 font-semibold">{sp.stores.name}</strong>
-                      </p>
-                    </div>
-
-                    <div className="space-y-3.5 pt-4 border-t border-slate-800">
-                      <div className="flex justify-between items-baseline">
-                        <span className="text-xs font-semibold text-slate-400">Precio contado:</span>
-                        <div className="text-right">
-                          <span className="text-3xl font-black text-white tracking-tight">
-                            ${priceNum.toFixed(2)}
-                          </span>
-                        </div>
-                      </div>
-
-                      {sp.is_cashea_eligible && (
-                        <div className="p-3 bg-orange-500/10 rounded-2xl border border-orange-500/20 text-xs flex justify-between items-center text-slate-300">
-                          <div className="flex items-center gap-1.5 font-extrabold text-orange-400">
-                            <span className="w-2.5 h-2.5 rounded-full bg-orange-400" />
-                            <span>Cashea</span>
-                          </div>
-                          <span className="text-slate-200 font-bold font-mono text-[11px]">
-                            Inicial ${casheaInitial.toFixed(2)} + 3x${casheaInstallment.toFixed(2)}
-                          </span>
-                        </div>
-                      )}
-
-                      <a
-                        href={generateWhatsAppLink(
-                          [{ name: sp.products.name, storeName: sp.stores.name, price: priceNum, quantity: 1 }],
-                          city
-                        )}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 w-full py-3 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-bold rounded-2xl transition-all duration-200 text-xs tracking-wide shadow-md shadow-emerald-600/20 group/btn"
-                      >
-                        <svg className="w-4 h-4 fill-current group-hover/btn:scale-110 transition-transform" viewBox="0 0 24 24">
-                          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" />
-                        </svg>
-                        <span>Pedir por WhatsApp</span>
-                      </a>
-                    </div>
-                  </article>
-                )
-              })}
-            </div>
-          ) : (
-            <div className="text-center py-16 px-4 bg-slate-900/50 rounded-3xl border border-slate-800 text-slate-400 space-y-3">
-              <div className="text-4xl">🔍</div>
-              <h3 className="text-base font-bold text-white">No encontramos ofertas disponibles</h3>
-              <p className="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">
-                Prueba modificando el término de búsqueda o cambiando la ciudad seleccionada.
+              <h3 className="text-lg font-black text-slate-900">Selecciona tu Ciudad</h3>
+              <p className="text-slate-600 text-xs leading-relaxed font-medium">
+                Indica dónde te encuentras para ver exclusivamente las tiendas físicas e hipermercados disponibles cerca de ti.
               </p>
             </div>
-          )}
+
+            {/* Paso 2 */}
+            <div className={`bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm relative space-y-4 hover:shadow-md transition-all duration-700 delay-400 transform ${stepsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+              }`}>
+              <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-600 font-black text-xl flex items-center justify-center">
+                2
+              </div>
+              <h3 className="text-lg font-black text-slate-900">Compara Precios y Cashea</h3>
+              <p className="text-slate-600 text-xs leading-relaxed font-medium">
+                Ordenamos de forma transparente las opciones desde la más económica. Identifica fácilmente cuáles admiten pago a cuotas.
+              </p>
+            </div>
+
+            {/* Paso 3 */}
+            <div className={`bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm relative space-y-4 hover:shadow-md transition-all duration-700 delay-600 transform ${stepsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+              }`}>
+              <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-600 font-black text-xl flex items-center justify-center">
+                3
+              </div>
+              <h3 className="text-lg font-black text-slate-900">Contacta Directo a la Tienda</h3>
+              <p className="text-slate-600 text-xs leading-relaxed font-medium">
+                Abre un chat de WhatsApp precargado con el comercio para consultar disponibilidad inmediata o pedir tu delivery.
+              </p>
+            </div>
+
+          </div>
 
         </div>
       </section>
+
+      
+      {/* 5. SECCIÓN INSPIRADA EN LA IMAGEN (Redirige al Asesor Inteligente) */}
+      <section className="max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24 border-b border-slate-200/60">
+        {/* Cambiamos el contenedor para usar flex en móvil con orden invertido y grid en pantallas grandes */}
+        <div className="flex flex-col lg:grid lg:grid-cols-12 gap-12 items-center">
+
+          {/* Información y Botón (se muestra PRIMERO en móvil con order-1, y en orden normal en escritorio con lg:order-2) */}
+          <div className="lg:col-span-6 space-y-6 order-1 lg:order-2">
+
+
+
+            <h2 className="text-3xl md:text-4xl font-black text-slate-950 leading-tight">
+              ⚡Tu guía de suplementación a un clic de distancia
+            </h2>
+
+            <p className="text-slate-600 text-sm md:text-base leading-relaxed font-medium">
+              ¿No sabes qué proteína o creatina elegir para tus metas? Nuestro asesor inteligente evalúa tus objetivos físicos y te orienta hacia la mejor suplementación disponible al mejor precio en tu ciudad.
+            </p>
+
+            <ul className="space-y-3 text-sm font-semibold text-slate-800">
+              <li className="flex items-center gap-2.5">
+                <span className="text-emerald-500 font-bold">✓</span>
+                Proteínas, creatinas, pre-entrenos y vitaminas adaptadas a tu rutina
+              </li>
+              <li className="flex items-center gap-2.5">
+                <span className="text-emerald-500 font-bold">✓</span>
+                Reserva y consulta disponibilidad directa en tiendas físicas
+              </li>
+              <li className="flex items-center gap-2.5">
+                <span className="text-emerald-500 font-bold">✓</span>
+                Pago en cómodas cuotas con Cashea
+              </li>
+              <li className="flex items-center gap-2.5">
+                <span className="text-emerald-500 font-bold">✓</span>
+                Asesoría personalizada e inteligente al instante
+              </li>
+            </ul>
+
+            <div className="pt-4 flex items-center gap-4 flex-wrap">
+              <a
+                href="/asesor"
+                className="px-6 py-3.5 bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-bold rounded-2xl transition-all shadow-lg shadow-emerald-500/25 text-sm inline-flex items-center gap-2 cursor-pointer"
+              >
+                <span>Ir al Asesor Inteligente</span>
+                <span>→</span>
+              </a>
+
+              <span className="text-xs font-bold text-slate-500">
+                Atención rápida y personalizada
+              </span>
+            </div>
+
+          </div>
+
+          {/* Mockup / Card Visual (se muestra DESPUÉS en móvil con order-2, y a la izquierda en escritorio con lg:order-1) */}
+          <div className="lg:col-span-6 order-2 lg:order-1 w-full">
+            <div className="bg-slate-100/80 rounded-[2.5rem] p-6 md:p-10 border border-slate-200/80 shadow-sm relative overflow-hidden min-h-[440px] flex flex-col justify-center">
+
+              <div className="absolute -top-3 -left-2 text-6xl select-none pointer-events-none opacity-90">
+                🏋️‍♂️
+              </div>
+
+              <div className="bg-white rounded-2xl p-4 shadow-lg border border-slate-100 space-y-2 mb-4 relative z-10 max-w-sm mx-auto w-full">
+                <div className="flex items-center gap-3">
+                  <div className="bg-orange-100 text-orange-600 font-black text-xs px-2.5 py-1.5 rounded-xl uppercase text-center leading-tight">
+                    MP <br />
+                    <span className="text-[10px]">RECOM.</span>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-slate-900">Asesor Nutricional Inteligente</h4>
+                    <p className="text-xs text-slate-500">Recomendaciones según tu objetivo de entrenamiento</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-center gap-2 mb-4 relative z-10 flex-wrap">
+                <span className="px-3 py-1.5 bg-white text-slate-800 font-bold text-xs rounded-full shadow-sm border border-slate-200/60 flex items-center gap-1">
+                  ⚡ Masa Muscular
+                </span>
+                <span className="px-3 py-1.5 bg-white text-slate-800 font-bold text-xs rounded-full shadow-sm border border-slate-200/60 flex items-center gap-1">
+                  🔥 Pérdida de Grasa
+                </span>
+                <span className="px-3 py-1.5 bg-white text-slate-800 font-bold text-xs rounded-full shadow-sm border border-slate-200/60 flex items-center gap-1">
+                  💪 Rendimiento
+                </span>
+              </div>
+
+              <div className="bg-white rounded-2xl p-4 shadow-lg border border-slate-100 space-y-3 relative z-10 max-w-sm mx-auto w-full">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <span className="font-bold text-xs text-slate-900 block">Kit Recomendado • 2 productos</span>
+                    <span className="text-[10px] text-slate-400 font-medium">Creatina Monohidratada + Whey Protein</span>
+                  </div>
+                  <span className="text-base font-black text-slate-900">$58,00</span>
+                </div>
+
+                <div className="pt-2 border-t border-slate-100 flex justify-between items-center">
+                  <span className="text-[11px] text-slate-500 font-medium">
+                    Obtén tu recomendación gratis
+                  </span>
+                  <a
+                    href="/asesor"
+                    className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-emerald-500/20"
+                  >
+                    Consultar
+                  </a>
+                </div>
+              </div>
+
+              <div className="absolute -bottom-2 -right-2 text-6xl select-none pointer-events-none opacity-90">
+                🥤
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* 6. SECCIÓN DEL COMPARADOR Y PRODUCTOS (Con Scroll Animado) */}
+<section 
+  id="comparador-section" 
+  ref={comparadorRef} 
+  className="bg-slate-950 text-white py-20 px-4 md:px-8 relative overflow-hidden"
+>
+  <div className="absolute top-0 right-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
+  <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl pointer-events-none" />
+
+  <div className="max-w-6xl mx-auto space-y-12 relative z-10">
+    
+    {/* Encabezado */}
+    <div className={`text-center space-y-4 max-w-5xl mx-auto px-4 transition-all duration-700 transform ${
+      comparadorVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+    }`}>
+      <p className="text-xs md:text-sm font-bold text-orange-400 uppercase tracking-widest">
+        ¿Por qué comparar con nosotros?
+      </p>
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
+        Encuentra la mejor opción de compra <br className="hidden sm:block" />
+        para llevarte lo que necesitas hoy.
+      </h2>
+      <p className="text-slate-400 text-sm md:text-base font-medium max-w-2xl mx-auto">
+        Filtra por tu ciudad, compara precios al instante y encuentra tiendas físicas con disponibilidad de Cashea.
+      </p>
+    </div>
+
+    {/* Barra de Filtros y Buscador */}
+    <div className={`bg-slate-900/90 border border-slate-800 p-5 rounded-3xl shadow-2xl backdrop-blur-md space-y-4 transition-all duration-700 delay-150 transform ${
+      comparadorVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+    }`}>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="md:col-span-2 relative">
+          <input
+            type="text"
+            placeholder="Buscar por producto o marca (ej: Creatina, Whey, Optimum)..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="w-full pl-11 pr-4 py-3.5 bg-slate-950 border border-slate-800 focus:border-orange-500 rounded-2xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/30 transition-all font-medium"
+          />
+          <svg className="w-5 h-5 absolute left-3.5 top-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+
+        <div className="relative">
+          <select
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            className="w-full appearance-none px-4 py-3.5 bg-slate-950 border border-slate-800 focus:border-orange-500 rounded-2xl text-sm font-semibold text-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500/30 transition-all cursor-pointer"
+          >
+            <option value="Caracas">📍 Caracas</option>
+            <option value="Valencia">📍 Valencia</option>
+            <option value="Barquisimeto">📍 Barquisimeto</option>
+            <option value="Maracaibo">📍 Maracaibo</option>
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
+            <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+              <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 pt-2 no-scrollbar border-t border-slate-800/80">
+        {CATEGORIES.map((cat) => (
+          <button
+            type="button"
+            key={cat.id}
+            onClick={() => setCategory(cat.id)}
+            className={`whitespace-nowrap px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 cursor-pointer ${
+              category === cat.id
+                ? 'bg-orange-500 text-slate-950 shadow-md shadow-orange-500/20'
+                : 'bg-slate-950 text-slate-400 hover:bg-slate-800 hover:text-white'
+            }`}
+          >
+            <span>{cat.icon}</span>
+            <span>{cat.label}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    {/* Resultados Directos: Cards / Productos */}
+    {loading ? (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {[1, 2, 3, 4, 5, 6].map((i) => (
+          <div key={i} className="p-5 rounded-3xl bg-slate-900 border border-slate-800 space-y-4 animate-pulse">
+            <div className="h-4 bg-slate-800 rounded w-1/3" />
+            <div className="h-6 bg-slate-800 rounded w-3/4" />
+            <div className="h-4 bg-slate-800 rounded w-1/2" />
+            <div className="h-10 bg-slate-800/50 rounded-2xl" />
+            <div className="h-10 bg-slate-800/50 rounded-2xl" />
+          </div>
+        ))}
+      </div>
+    ) : filteredProducts.length > 0 ? (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {filteredProducts.slice(0, 6).map((sp, idx) => {
+          const priceNum = Number(sp.price)
+          const casheaInitial = priceNum * 0.5
+          const casheaInstallment = casheaInitial / 3
+          // Calcula un delay escalonado dinámico para cada tarjeta
+          const delayMs = 200 + idx * 100
+
+          return (
+            <article
+              key={sp.id}
+              style={{ transitionDelay: comparadorVisible ? `${delayMs}ms` : '0ms' }}
+              className={`group relative p-6 rounded-3xl bg-slate-900 border border-slate-800 hover:border-orange-500/50 transition-all duration-700 flex flex-col justify-between space-y-5 shadow-xl hover:-translate-y-1 overflow-hidden transform ${
+                comparadorVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+              }`}
+            >
+              <div className="absolute top-0 left-0 right-0 h-1.5 bg-orange-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+
+              {idx === 0 && !query && (
+                <div className="absolute top-0 right-0 bg-emerald-500 text-white font-black text-[10px] px-3.5 py-1 rounded-bl-2xl uppercase tracking-wider shadow-sm flex items-center gap-1">
+                  <span>🥇</span> Mejor Oferta
+                </div>
+              )}
+
+              <div className="space-y-3 pt-1">
+                <div className="flex items-center gap-2 pr-16 flex-wrap">
+                  <span className="text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 bg-slate-800 text-slate-300 rounded-lg">
+                    {sp.products.brand}
+                  </span>
+                  {sp.stores.is_flagship && (
+                    <span className="text-[10px] font-bold text-orange-400 bg-orange-500/10 px-2.5 py-0.5 rounded-lg border border-orange-500/30 flex items-center gap-1">
+                      <span className="text-xs">⭐</span> Flagship
+                    </span>
+                  )}
+                </div>
+
+                <h3 className="font-bold text-base text-white leading-snug group-hover:text-orange-400 transition-colors">
+                  {sp.products.name}
+                </h3>
+
+                <p className="text-xs text-slate-400 flex items-center gap-1">
+                  <span>Tienda:</span>
+                  <strong className="text-slate-200 font-semibold">{sp.stores.name}</strong>
+                </p>
+              </div>
+
+              <div className="space-y-3.5 pt-4 border-t border-slate-800">
+                <div className="flex justify-between items-baseline">
+                  <span className="text-xs font-semibold text-slate-400">Precio contado:</span>
+                  <div className="text-right">
+                    <span className="text-3xl font-black text-white tracking-tight">
+                      ${priceNum.toFixed(2)}
+                    </span>
+                  </div>
+                </div>
+
+                {sp.is_cashea_eligible && (
+                  <div className="p-3 bg-orange-500/10 rounded-2xl border border-orange-500/20 text-xs flex justify-between items-center text-slate-300">
+                    <div className="flex items-center gap-1.5 font-extrabold text-orange-400">
+                      <span className="w-2.5 h-2.5 rounded-full bg-orange-400" />
+                      <span>Cashea</span>
+                    </div>
+                    <span className="text-slate-200 font-bold font-mono text-[11px]">
+                      Inicial ${casheaInitial.toFixed(2)} + 3x${casheaInstallment.toFixed(2)}
+                    </span>
+                  </div>
+                )}
+
+                <a
+                  href={generateWhatsAppLink(
+                    [{ name: sp.products.name, storeName: sp.stores.name, price: priceNum, quantity: 1 }],
+                    city
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 w-full py-3 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-bold rounded-2xl transition-all duration-200 text-xs tracking-wide shadow-md shadow-emerald-600/20 group/btn"
+                >
+                  <svg className="w-4 h-4 fill-current group-hover/btn:scale-110 transition-transform" viewBox="0 0 24 24">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" />
+                  </svg>
+                  <span>Pedir por WhatsApp</span>
+                </a>
+              </div>
+            </article>
+          )
+        })}
+      </div>
+    ) : (
+      <div className="text-center py-16 px-4 bg-slate-900/50 rounded-3xl border border-slate-800 text-slate-400 space-y-3">
+        <div className="text-4xl">🔍</div>
+        <h3 className="text-base font-bold text-white">No encontramos ofertas disponibles</h3>
+        <p className="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">
+          Prueba modificando el término de búsqueda o cambiando la ciudad seleccionada.
+        </p>
+      </div>
+    )}
+
+  </div>
+</section>
 
       <Footer />
     </main>
