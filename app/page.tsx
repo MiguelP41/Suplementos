@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { generateWhatsAppLink } from '@/lib/whatsapp'
 import Footer from '@/components/Footer'
@@ -39,6 +39,27 @@ export default function HomePage() {
   const [category, setCategory] = useState('ALL')
   const [products, setProducts] = useState<StoreProduct[]>([])
   const [loading, setLoading] = useState(true)
+
+  const [stepsVisible, setStepsVisible] = useState(false)
+  const stepsRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStepsVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.2 }
+    )
+
+    if (stepsRef.current) {
+      observer.observe(stepsRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   const fetchProducts = useCallback(async () => {
     setLoading(true)
@@ -303,55 +324,66 @@ export default function HomePage() {
       </section>
 
       {/* 4. ¿Cómo funciona / Pasos del Comparador? */}
-      <section className="bg-slate-100/80 border-y border-slate-200 py-16 md:py-20 px-4 md:px-8">
-        <div className="max-w-7xl mx-auto space-y-12">
-          
-          <div className="text-center space-y-5 max-w-2xl mx-auto">
-            <span className="inline-block mb-2 text-xs font-extrabold text-orange-600 uppercase tracking-widest bg-orange-100 px-4 py-1.5 rounded-full border border-orange-200">
-              Proceso simple y transparente
-            </span>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
-              ¿Cómo encontrar la oferta perfecta en 3 pasos?
-            </h2>
-            <p className="text-slate-600 text-sm font-medium">
-              Eliminamos el desorden. Compara precios reales de establecimientos locales directamente desde tu celular.
-            </p>
-          </div>
+<section ref={stepsRef} className="bg-slate-100/80 border-y border-slate-200 py-16 md:py-20 px-4 md:px-8 overflow-hidden">
+  <div className="max-w-7xl mx-auto space-y-12">
+    
+    <div className="text-center space-y-5 max-w-2xl mx-auto">
+      <span className="inline-block mb-2 text-xs font-extrabold text-orange-600 uppercase tracking-widest bg-orange-100 px-4 py-1.5 rounded-full border border-orange-200">
+        Proceso simple y transparente
+      </span>
+      <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
+        ¿Cómo encontrar la oferta perfecta en 3 pasos?
+      </h2>
+      <p className="text-slate-600 text-sm font-medium">
+        Eliminamos el desorden. Compara precios reales de establecimientos locales directamente desde tu celular.
+      </p>
+    </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm relative space-y-4 hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-600 font-black text-xl flex items-center justify-center">
-                1
-              </div>
-              <h3 className="text-lg font-black text-slate-900">Selecciona tu Ciudad</h3>
-              <p className="text-slate-600 text-xs leading-relaxed font-medium">
-                Indica dónde te encuentras para ver exclusivamente las tiendas físicas e hipermercados disponibles cerca de ti.
-              </p>
-            </div>
-
-            <div className="bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm relative space-y-4 hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-600 font-black text-xl flex items-center justify-center">
-                2
-              </div>
-              <h3 className="text-lg font-black text-slate-900">Compara Precios y Cashea</h3>
-              <p className="text-slate-600 text-xs leading-relaxed font-medium">
-                Ordenamos de forma transparente las opciones desde la más económica. Identifica fácilmente cuáles admiten pago a cuotas.
-              </p>
-            </div>
-
-            <div className="bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm relative space-y-4 hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-600 font-black text-xl flex items-center justify-center">
-                3
-              </div>
-              <h3 className="text-lg font-black text-slate-900">Contacta Directo a la Tienda</h3>
-              <p className="text-slate-600 text-xs leading-relaxed font-medium">
-                Abre un chat de WhatsApp precargado con el comercio para consultar disponibilidad inmediata o pedir tu delivery.
-              </p>
-            </div>
-          </div>
-
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      {/* Paso 1 */}
+      <div className={`bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm relative space-y-4 hover:shadow-md transition-all duration-700 transform ${
+        stepsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+      }`}>
+        <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-600 font-black text-xl flex items-center justify-center">
+          1
         </div>
-      </section>
+        <h3 className="text-lg font-black text-slate-900">Selecciona tu Ciudad</h3>
+        <p className="text-slate-600 text-xs leading-relaxed font-medium">
+          Indica dónde te encuentras para ver exclusivamente las tiendas físicas e hipermercados disponibles cerca de ti.
+        </p>
+      </div>
+
+      {/* Paso 2 */}
+      <div className={`bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm relative space-y-4 hover:shadow-md transition-all duration-700 delay-200 transform ${
+        stepsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+      }`}>
+        <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-600 font-black text-xl flex items-center justify-center">
+          2
+        </div>
+        <h3 className="text-lg font-black text-slate-900">Compara Precios y Cashea</h3>
+        <p className="text-slate-600 text-xs leading-relaxed font-medium">
+          Ordenamos de forma transparente las opciones desde la más económica. Identifica fácilmente cuáles admiten pago a cuotas.
+        </p>
+      </div>
+
+      {/* Paso 3 */}
+      <div className={`bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm relative space-y-4 hover:shadow-md transition-all duration-700 delay-400 transform ${
+        stepsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+      }`}>
+        <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-600 font-black text-xl flex items-center justify-center">
+          3
+        </div>
+        <h3 className="text-lg font-black text-slate-900">Contacta Directo a la Tienda</h3>
+        <p className="text-slate-600 text-xs leading-relaxed font-medium">
+          Abre un chat de WhatsApp precargado con el comercio para consultar disponibilidad inmediata o pedir tu delivery.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
 
       
      {/* 5. SECCIÓN INSPIRADA EN LA IMAGEN (Redirige al Asesor Inteligente) */}
